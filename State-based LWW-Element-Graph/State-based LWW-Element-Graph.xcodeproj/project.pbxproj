@@ -19,6 +19,7 @@
 		9DB7BFD226DF09C400CC72D5 /* LWWGSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFD126DF09C400CC72D5 /* LWWGSet.swift */; };
 		9DB7BFD726DF0A2900CC72D5 /* LWWGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFD626DF0A2900CC72D5 /* LWWGraph.swift */; };
 		9DB7BFDC26DF0A7D00CC72D5 /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFDB26DF0A7D00CC72D5 /* Edge.swift */; };
+		9DB7BFE726DF1C8000CC72D5 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFE626DF1C8000CC72D5 /* Vertex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		9DB7BFD126DF09C400CC72D5 /* LWWGSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LWWGSet.swift; sourceTree = "<group>"; };
 		9DB7BFD626DF0A2900CC72D5 /* LWWGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LWWGraph.swift; sourceTree = "<group>"; };
 		9DB7BFDB26DF0A7D00CC72D5 /* Edge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
+		9DB7BFE626DF1C8000CC72D5 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				9DB7BFDB26DF0A7D00CC72D5 /* Edge.swift */,
 				9DB7BFD126DF09C400CC72D5 /* LWWGSet.swift */,
 				9DB7BFD626DF0A2900CC72D5 /* LWWGraph.swift */,
+				9DB7BFE626DF1C8000CC72D5 /* Vertex.swift */,
 			);
 			path = "State-based LWW-Element-Graph";
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				9DB7BFDC26DF0A7D00CC72D5 /* Edge.swift in Sources */,
 				9DB7BFD226DF09C400CC72D5 /* LWWGSet.swift in Sources */,
 				9DB7BF9E26DF094200CC72D5 /* ViewController.swift in Sources */,
+				9DB7BFE726DF1C8000CC72D5 /* Vertex.swift in Sources */,
 				9DB7BF9A26DF094200CC72D5 /* AppDelegate.swift in Sources */,
 				9DB7BF9C26DF094200CC72D5 /* SceneDelegate.swift in Sources */,
 			);

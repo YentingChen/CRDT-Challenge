@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct LWWGSet<T: Hashable> {
+struct LWWGSet<T: Hashable>: Hashable {
+    
     /// A dictionary that stores the time an element was added.
     var timestamps = [T : Date]()
     
@@ -16,7 +17,9 @@ struct LWWGSet<T: Hashable> {
     /// - Parameter item: The item to look up.
     /// - Returns: The time `item` was added or nil.
     func lookup(_ item: T) -> Date? {
+
         return timestamps[item]
+        
     }
     
     /// Adds an item to this set.
@@ -25,16 +28,30 @@ struct LWWGSet<T: Hashable> {
     ///   - item: The item to add to this set.
     ///   - timestamp: The time at which `item` was added into this set. If not provided, defaults to the current system date/time.
     mutating func add(_ item: T, timestamp: Date = Date()) {
+        
         if let previousAddTime = lookup(item), previousAddTime >= timestamp {
+            
             return
+            
         }
+        
         timestamps[item] = timestamp
+    }
+    
+    /// Returns whether this subset is a subset of the other set.
+    ///
+    /// - Parameter anotherSet: Another set to compare this set to.
+    /// - Returns: Whether this set is a subset of the other set.
+    func compare(anotherSet: LWWGSet<T>) -> Bool {
+        
+        return timestamps.allSatisfy { anotherSet.lookup($0.key) != nil }
+        
     }
     
     /// Merges another set into this set, selecting the later timestamp if there are multiple for the same element.
     ///
     /// - Parameter anotherSet: The set to merge into this set.
-    mutating func merge(anotherSet: LWWGSet<T>) {
+    mutating func merge(anotherSet: LWWGSet<T>) -> LWWGSet<T> {
         
         for i in anotherSet.timestamps {
             
@@ -49,5 +66,8 @@ struct LWWGSet<T: Hashable> {
             
         }
         
+        return LWWGSet(timestamps: timestamps)
+        
     }
+    
 }
