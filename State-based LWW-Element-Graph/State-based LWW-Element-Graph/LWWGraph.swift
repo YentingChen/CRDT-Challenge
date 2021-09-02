@@ -22,6 +22,8 @@ struct LWWGraph<T: Hashable> {
     
     var er = LWWGSet<Edge<T>>()
     
+    // MARK: Lookup
+    
     /// Returns whether this vertex exists the graph.
     ///
     /// - Parameters:
@@ -59,16 +61,35 @@ struct LWWGraph<T: Hashable> {
         
     }
     
-    func compare(anotherGraph: LWWGraph<T>) -> Bool {
+    /// Returns the vertices `item` related to the query vertex.
+    ///
+    /// - Parameters:
+    ///     - vertex: The item to look up.
+    /// - Returns: The array `item` related to the query vertex.
+    func lookupConnectedEdges(vertex: Vertex<T>) -> [Edge<T>] {
         
-        let sameVa = va.compare(anotherSet: anotherGraph.va)
-        let sameVr = vr.compare(anotherSet: anotherGraph.vr)
-        let sameEa = ea.compare(anotherSet: anotherGraph.ea)
-        let sameEr = er.compare(anotherSet: anotherGraph.er)
+        var edges = [Edge<T>]()
         
-        
-        return (sameVa || sameVr) && (sameEa || sameEr)
-        
+        for i in ea.timestamps {
+            
+            if er.timestamps[i.key] == nil {
+                
+                if i.key.source == vertex {
+                    
+                    edges.append(i.key)
+
+                }
+
+                if i.key.destination == vertex {
+
+                    edges.append(i.key)
+                }
+
+            }
+            
+        }
+    
+        return edges
     }
     
     /// Returns the vertices `item` related to the query vertex.
@@ -127,6 +148,73 @@ struct LWWGraph<T: Hashable> {
         return nil
     }
     
+    /// Returns the vertices `item` existing in the graph
+    ///
+    /// - Returns: The vertices `item` existing in the graph
+    func lookupCurrentVertice() -> [Vertex<T>]  {
+        
+        var vertice = [Vertex<T> : Date]()
+        
+        for i in va.timestamps {
+            
+            if let previousRemoveTime = vr.timestamps[i.key] {
+                
+                if previousRemoveTime < i.value {
+                    
+                    vertice[i.key] = i.value
+                    
+                }
+                
+            } else {
+                
+                vertice[i.key] = i.value
+                
+            }
+        }
+        
+        let sortedVertice = vertice.sorted {
+            
+            return $0.value < $1.value
+            
+        }.map({ $0.key })
+        
+        return sortedVertice
+    }
+    
+    /// Returns the edges `item` existing in the graph
+    ///
+    /// - Returns: The edges `item` existing in the graph
+    func lookupCurrentEdges() -> [Edge<T>]  {
+        
+        var edges = [Edge<T> : Date]()
+        
+        for i in ea.timestamps {
+            
+            if let previousRemoveTime = er.timestamps[i.key] {
+                
+                if previousRemoveTime < i.value {
+                    
+                    edges[i.key] = i.value
+                    
+                }
+                
+            } else {
+                
+                edges[i.key] = i.value
+            }
+        }
+        
+        let sortedEdges = edges.sorted {
+            
+            return $0.value < $1.value
+            
+        }.map({ $0.key })
+        
+        return sortedEdges
+
+    }
+    
+    // MARK: Merge
     /// Merges another graph into this graph
     ///
     /// - Parameter anotherGraph: The graph to merge into this graph.
@@ -144,6 +232,7 @@ struct LWWGraph<T: Hashable> {
         
     }
     
+    // MARK: Add
     /// Adds a Vertex to this Graph.
     ///
     /// - Parameters:
@@ -185,6 +274,26 @@ struct LWWGraph<T: Hashable> {
         }
     }
     
+    /// Adds an Edge to this Graph.
+    ///
+    /// - Parameters:
+    ///   - edge: The item to add to this graph
+    mutating func addEdge(edge: Edge<T>) {
+        
+        /// - Precondition:
+        ///     - The Source and Destination of the Edge exists
+        ///     - All edges related to vertex not exists
+        /// - Downtream:
+        ///     - EA adds the Edge
+        if lookup(vertex: edge.source) && lookup(vertex: edge.destination) {
+            
+            ea.add(edge)
+            
+        }
+        
+    }
+    
+    // MARK: Remove
     /// Removes an vertex from this Graph.
     ///
     /// - Parameters:
@@ -227,15 +336,32 @@ struct LWWGraph<T: Hashable> {
     ///   - edgeType: the direction type of the Edge: directed, undirected
     mutating func removeEdge(vertex1: Vertex<T>, vertex2: Vertex<T>, edgeType: EdgeType) {
         
+        let edge = Edge(source: vertex1, destination: vertex2)
+        
+        removeEdge(edge: edge)
+        
+        if edgeType == .directed {
+            
+            let reversedEdge = Edge(source: vertex2, destination: vertex1)
+            
+            removeEdge(edge: reversedEdge)
+            
+        }
+        
+    }
+    
+    // Removes an edge from this Graph.
+    ///
+    /// - Parameters:
+    ///   - edge: The item to remove from this graph.
+    mutating func removeEdge(edge: Edge<T>) {
+        
         /// - Precondition:
-        ///     - There is an Edge which source is vertex1, and the destination is vertex2
         ///     - The Edge exists
         ///
         /// - Downtream:
         ///     - Pre:  the edge is added
         ///     - ER adds the vertex
-        let edge = Edge(source: vertex1, destination: vertex2)
-
         if lookup(edge: edge) {
             
             if let eaDate = ea.lookup(edge), eaDate < Date() {
@@ -243,29 +369,6 @@ struct LWWGraph<T: Hashable> {
                 er.add(edge)
                 
             }
-        }
-        
-        /// - Precondition:
-        ///     - EdgeType is undirected
-        ///     - There is an Edge which source is vertex2, and the destination is vertex1
-        ///     - The Edge exists
-        ///
-        /// - Downtream:
-        ///     - Pre:  the edge is added
-        ///     - ER adds the vertex
-        if edgeType == .undirected {
-            
-            let reversedEdge = Edge(source: vertex2, destination: vertex1)
-            
-            if lookup(edge: reversedEdge) {
-                
-                if let eaDate = ea.lookup(reversedEdge), eaDate < Date() {
-                    
-                    er.add(reversedEdge)
-                    
-                }
-            }
-        
         }
         
     }

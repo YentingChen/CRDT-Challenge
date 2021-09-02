@@ -28,72 +28,262 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
 
     }
     
-    func testAdding() {
-
-        //Test Vertices
-        a.addVertex(vertex: Vertex(data: 1))
-        a.addVertex(vertex: Vertex(data: 2))
-        a.addVertex(vertex: Vertex(data: 3))
-
-        let vaData = Set(a.va.timestamps.map({ $0.key.data }))
-
-        XCTAssertEqual(vaData, [1,2,3])
-
-        //Test Edges
-        a.addEdge(source: Vertex(data: 1), destination: Vertex(data: 2), type: .directed)
-
-        let eaData = Set(a.ea.timestamps.map({$0.key}))
-
+    ///Testing of adding vertice
+    ///
+    ///Action:
+    ///     - Add vetex1, vertex2, and vertex3
+    ///
+    ///Check:
+    ///     - Current vertice are vertex1, vertex2, and vertex3
+    ///     - The count of vertexAddingSet is 3
+    func testAddingVertex() {
+        
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
+        let vertex3 = Vertex(data: 3)
+        
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex2)
+        a.addVertex(vertex: vertex3)
+        
+        let currentVertice = a.lookupCurrentVertice()
+        XCTAssertEqual(currentVertice, [vertex1, vertex2, vertex3])
+        
+        let vertexAddedCout = a.va.timestamps.count
+        XCTAssertEqual(vertexAddedCout, 3)
+        
+    }
+    
+    ///Testing of adding edges
+    ///
+    ///Pre:
+    ///    - Vertex1 and vertex2 were added
+    ///
+    ///Action:
+    ///     - Add directed edge(1,2)
+    ///
+    ///Check:
+    ///     - Current edge is edge(1,2)
+    ///     - The count of edgeAddingSet is 1
+    func testAddingEdge() {
+        
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
         let theEdge = Edge(source: Vertex(data: 1), destination: Vertex(data: 2))
+        
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex2)
+        a.addEdge(source: vertex1, destination:vertex2, type: .directed)
+        
+        let currentEdges = a.lookupCurrentEdges()
 
-        XCTAssertEqual(eaData, [theEdge])
+        XCTAssertEqual(currentEdges, [theEdge])
+        
+        let edgeAddedCout = a.ea.timestamps.count
+        XCTAssertEqual(edgeAddedCout, 1)
     }
     
-    func testRemoving() {
+    ///Testing of removing vetrice
+    ///
+    ///Pre:
+    ///    - Vertex1, vertex2, and vertex3 were added
+    ///
+    ///Action:
+    ///     - Remove vertex2
+    ///
+    ///Check:
+    ///     - Current vertrice are Vertex1 and vertex3
+    ///     - The count of vertexRemovingSet is 1
+    func testRemovingVertex() {
         
-        //Test Vertices
-        a.addVertex(vertex: Vertex(data: 1))
-        a.addVertex(vertex: Vertex(data: 2))
-        a.addVertex(vertex: Vertex(data: 3))
-        a.removeVertex(vertex: Vertex(data: 2))
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
+        let vertex3 = Vertex(data: 3)
+    
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex2)
+        a.addVertex(vertex: vertex3)
+        a.removeVertex(vertex: vertex2)
 
-        let vrData = Set(a.vr.timestamps.map({ $0.key.data}))
-        let vaData = Set(a.va.timestamps.map({ $0.key.data}))
-
-        XCTAssertEqual(vrData, [2])
-        XCTAssertEqual(vaData, [1, 2, 3])
+        let currentVertice = a.lookupCurrentVertice()
+        XCTAssertEqual(currentVertice, [vertex1, vertex3])
         
-        //Test Edges
-        a.addVertex(vertex: Vertex(data: 1))
-        a.addVertex(vertex: Vertex(data: 2))
-        a.addVertex(vertex: Vertex(data: 3))
-        a.addEdge(source: Vertex(data: 1), destination: Vertex(data: 2), type: .directed)
-        a.addEdge(source: Vertex(data: 1), destination: Vertex(data: 3), type: .directed)
-        a.removeEdge(vertex1: Vertex(data: 1), vertex2: Vertex(data: 2), edgeType: .directed)
-        XCTAssertEqual(a.ea.timestamps.count, 2)
-        XCTAssertEqual(a.er.timestamps.count, 1)
+        let vertexRemovingCout = a.vr.timestamps.count
+        XCTAssertEqual(vertexRemovingCout, 1)
     }
     
+    ///Testing of removing edges
+    ///
+    ///Pre:
+    ///    - Vertex1, vertex2, and vertex3 were added
+    ///    - Directed edge(1, 2) and Undirected edge(1,3) were added
+    ///
+    ///Action:
+    ///     - Remove Directed edge(1, 2)
+    ///
+    ///Check:
+    ///     - Current Edges are  Undirected edge(1,3)
+    ///     - The count of edgeAddedSet is 3
+    ///     - The count of edgeRemovingSet is 1
+    func testRemovingEdge() {
+        
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
+        let vertex3 = Vertex(data: 3)
+        let edgeFrom1to3 = Edge(source: vertex1, destination: vertex3)
+        let edgeFrom3to1 = Edge(source: vertex3, destination: vertex1)
+    
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex2)
+        a.addVertex(vertex: vertex3)
+        
+        a.addEdge(source: vertex1, destination: vertex2, type: .directed)
+        a.addEdge(source: vertex1, destination: vertex3, type: .undirected)
+        a.removeEdge(vertex1: vertex1, vertex2: vertex2, edgeType: .directed)
+        
+        let currentEdges = a.lookupCurrentEdges()
+        XCTAssertEqual(currentEdges, [edgeFrom1to3, edgeFrom3to1])
+        
+        let edgeAddingCout = a.ea.timestamps.count
+        XCTAssertEqual(edgeAddingCout, 3)
+        
+        let edgeRemovingCout = a.er.timestamps.count
+        XCTAssertEqual(edgeRemovingCout, 1)
+    }
+    
+    //Testing of lookup vertex
+    ///Pre:
+    ///     - There are vertex1, vertex2, and vetex3
+    ///Action:
+    ///     - Add vetex1
+    ///     - Add vertex3
+    ///     - Remove vertex3
+    ///
+    ///Check:
+    ///     - vertex1 exists
+    ///     - vertex3 not exists
+    func testLookingUpVertex() {
+        
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
+        let vertex3 = Vertex(data: 3)
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex3)
+        a.removeVertex(vertex: vertex3)
+        
+        let vertex1Existed = a.lookup(vertex: vertex1)
+        let vertex2Existed = a.lookup(vertex: vertex2)
+        XCTAssertEqual(vertex1Existed, true)
+        XCTAssertEqual(vertex2Existed, false)
+    }
+    
+    //Testing of lookup vertex
+    ///Pre:
+    ///     - There are vertex1, vertex2, and vetex3, edge(1,2), edge(2,1)
+    ///Action:
+    ///     - Add vetex1 and vertex2
+    ///     - Add edge(1,2)
+    ///
+    ///Check:
+    ///     - edge(1,2) exists
+    ///     - edge(2,1) not exists
+    func testLookUpEdge() {
+        
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
+        let edgeFrom1to2 = Edge(source: vertex1, destination: vertex2)
+        let edgeFrom2to1 = Edge(source: vertex2, destination: vertex1)
+        
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex2)
+       
+        a.addEdge(edge: edgeFrom1to2)
+        
+        let edgeFrom1to2Existed = a.lookup(edge: edgeFrom1to2)
+        let edgeFrom2to1Existed = a.lookup(edge: edgeFrom2to1)
+        XCTAssertEqual(edgeFrom1to2Existed, true)
+        XCTAssertEqual(edgeFrom2to1Existed, false)
+    }
+    
+    //Testing of connected vertices
+    ///Pre:
+    ///     - vertex1, vertex2, vertex3 and vetex4 were added
+    ///     - edge(1,2) and edge(1,3) were added
+    ///Action:
+    ///     - lookup vertex1's connected vertice
+    ///
+    ///Check:
+    ///     - vertex1's connectd vertice are vertex2 and vertex3
+    func testConnectedVertice() {
+        
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
+        let vertex3 = Vertex(data: 3)
+        let vertex4 = Vertex(data: 4)
+        let edgeFrom1to2 = Edge(source: vertex1, destination: vertex2)
+        let edgeFrom1to3 = Edge(source: vertex1, destination: vertex3)
+        
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex2)
+        a.addVertex(vertex: vertex3)
+        a.addVertex(vertex: vertex4)
+        a.addEdge(edge: edgeFrom1to2)
+        a.addEdge(edge: edgeFrom1to3)
+        
+        let connectedVertice = Set(a.lookupConnectedVerties(vertex: vertex1))
+        XCTAssertEqual(connectedVertice, Set([vertex2, vertex3]))
+    }
+    
+    //Testing of connected edges
+    ///Pre:
+    ///     - vertex1, vertex2, vertex3 and vetex4 were added
+    ///     - edge(1,2) and edge(1,3) were added
+    ///     - edge(2,3) was added
+    ///Action:
+    ///     - lookup vertex1's connected edges
+    ///
+    ///Check:
+    ///     - vertex1's connectd edges are edge(1,2) and edge(1,3)
+    func testConnectedEdges() {
+        
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
+        let vertex3 = Vertex(data: 3)
+        let vertex4 = Vertex(data: 4)
+        let edgeFrom1to2 = Edge(source: vertex1, destination: vertex2)
+        let edgeFrom1to3 = Edge(source: vertex1, destination: vertex3)
+        let edgeFrom2to3 = Edge(source: vertex2, destination: vertex3)
+        
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex2)
+        a.addVertex(vertex: vertex3)
+        a.addVertex(vertex: vertex4)
+        a.addEdge(edge: edgeFrom1to2)
+        a.addEdge(edge: edgeFrom1to3)
+        a.addEdge(edge: edgeFrom2to3)
+        
+        let connectedEdges = Set(a.lookupConnectedEdges(vertex: vertex1))
+        
+        XCTAssertEqual(connectedEdges, Set([edgeFrom1to2, edgeFrom1to3]))
+    }
+    
+    ///Testing of Idempotency
+    ///Merging the same values multiple times has no effect on the outcome
+    ///
+    ///Pre:
+    ///  - Updated Graph a and Graph b
+    ///
+    ///Action:
+    ///     - Graph c:  Graph a merge Graph b
+    ///     - Graph d:  Graph c merge Graph b
+    ///     - Graph e:  Graph c merged Graph a
+    ///
+    ///Check:
+    ///     - Graph c is equal to Graph d
+    ///     - Graph c is equal to Graph e
     func testIdempotency() {
         
-        //Update Vertex
-        a.addVertex(vertex: Vertex(data: 1))
-        a.addVertex(vertex: Vertex(data: 2))
-        a.addVertex(vertex: Vertex(data: 3))
-        a.removeVertex(vertex: Vertex(data: 1))
-
-        b.addVertex(vertex: Vertex(data: 1))
-        b.removeVertex(vertex: Vertex(data: 1))
-        b.addVertex(vertex: Vertex(data: 7))
-        b.addVertex(vertex: Vertex(data: 8))
-        b.addVertex(vertex: Vertex(data: 9))
-        b.removeVertex(vertex: Vertex(data: 8))
-        
-        //Update Edge
-        a.addEdge(source: Vertex(data: 2), destination: Vertex(data: 3), type: .directed)
-        
-        b.addEdge(source: Vertex(data: 7), destination: Vertex(data: 9), type: .directed)
-        b.removeEdge(vertex1: Vertex(data: 7), vertex2: Vertex(data: 9), edgeType: .directed)
+        updateGraphAandB()
         
         var c = a.merge(anotherGraph: b)
         let d = c.merge(anotherGraph: b)
@@ -101,66 +291,61 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
 
         XCTAssertEqual(c.va, d.va)
         XCTAssertEqual(c.vr, d.vr)
-        XCTAssertEqual(c.va, e.va)
-        XCTAssertEqual(c.vr, e.vr)
-        
         XCTAssertEqual(c.ea, d.ea)
         XCTAssertEqual(c.er, d.er)
+        
+        XCTAssertEqual(c.va, e.va)
+        XCTAssertEqual(c.vr, e.vr)
         XCTAssertEqual(c.ea, e.ea)
         XCTAssertEqual(c.er, e.er)
+        
     }
 
+    ///Testing of Commutativity
+    ///It doesn’t matter whether you merge a with b, or b with a.
+    ///
+    ///Pre:
+    ///     - Updated Graph a and Graph b
+    ///
+    ///Action:
+    ///     - Graph c:  Graph a merge Graph b
+    ///     - Graph d:  Graph b merge Graph a
+    ///
+    ///Check:
+    ///     - Graph c is equal to Graph d
+    ///     - Graph c is equal to Graph e
     func testCommutativity() {
-        a.addVertex(vertex: Vertex(data: 1))
-        a.addVertex(vertex: Vertex(data: 2))
-        a.addVertex(vertex: Vertex(data: 3))
-        a.removeVertex(vertex: Vertex(data: 2))
-
-        b.addVertex(vertex: Vertex(data: 10))
-        b.removeVertex(vertex: Vertex(data: 10))
-        b.addVertex(vertex: Vertex(data: 7))
-        b.addVertex(vertex: Vertex(data: 8))
-        b.addVertex(vertex: Vertex(data: 9))
-        b.removeVertex(vertex: Vertex(data: 8))
         
-        //Update Edge
-        a.addEdge(source: Vertex(data: 1), destination: Vertex(data: 3), type: .directed)
-        
-        b.addEdge(source: Vertex(data: 7), destination: Vertex(data: 9), type: .directed)
-        b.removeEdge(vertex1: Vertex(data: 7), vertex2: Vertex(data: 9), edgeType: .directed)
+        updateGraphAandB()
 
         let c = a.merge(anotherGraph: b)
         let d = b.merge(anotherGraph: a)
 
-        let vaData = Set(d.va.timestamps.map({ $0.key.data})).sorted()
-        let eaDataCount = d.ea.timestamps.map({ $0.key.source.data}).sorted()
-
-        XCTAssertEqual(vaData, [1,2,3,7,8,9,10])
-        XCTAssertEqual(eaDataCount, [1, 7])
-
         XCTAssertEqual(d.va, c.va)
         XCTAssertEqual(d.vr, c.vr)
+        XCTAssertEqual(d.ea, c.ea)
+        XCTAssertEqual(d.er, c.er)
 
     }
 
+    ///Testing of Commutativity
+    ///It doesn't matter if  a merge with b, and the result with c; or  begin with b and c, and merge the result with a.
+    ///
+    ///Pre:
+    ///     - Updated Graph a and Graph b
+    ///     - Graph c
+    ///
+    ///Action:
+    ///     - Graph e:  Graph a merge Graph b
+    ///     - Graph f:  Graph e merge Graph c
+    ///     - Graph g:  Graph a merge the result of the merge of Graph b with Graph c
+    ///
+    ///Check:
+    ///     - Graph f is equal to Graph g
     func testAssociativity() {
         
-        //Update Vertex
-        a.addVertex(vertex: Vertex(data: 1))
-        a.addVertex(vertex: Vertex(data: 2))
-        a.removeVertex(vertex: Vertex(data: 2))
-        a.addVertex(vertex: Vertex(data: 3))
-
-        b.addVertex(vertex: Vertex(data: 5))
-        b.addVertex(vertex: Vertex(data: 6))
-        b.addVertex(vertex: Vertex(data: 7))
-        
-        //Update Edge
-        a.addEdge(source: Vertex(data: 1), destination: Vertex(data: 3), type: .directed)
-        
-        b.addEdge(source: Vertex(data: 5), destination: Vertex(data: 6), type: .directed)
-        b.removeEdge(vertex1: Vertex(data: 5), vertex2: Vertex(data: 6), edgeType: .directed)
-
+        updateGraphAandB()
+    
         var c: LWWGraph<Int> = .init()
         c.addVertex(vertex: Vertex(data: 10))
         c.addVertex(vertex: Vertex(data: 11))
@@ -172,10 +357,53 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
         var e = a.merge(anotherGraph: b)
         let f = e.merge(anotherGraph: c)
         let g = a.merge(anotherGraph: b.merge(anotherGraph: c))
+        
         XCTAssertEqual(f.va, g.va)
         XCTAssertEqual(f.vr, g.vr)
         XCTAssertEqual(f.ea, g.ea)
         XCTAssertEqual(f.er, g.er)
+    }
+    
+    
+    ///Update Graph a and Graph b
+    ///
+    ///- Graph a:
+    ///     - added vertex1, vertex2, vertex3
+    ///     - removed vertex1
+    ///     - added Edge(2,3)
+    ///
+    /// - Graph b:
+    ///     - added vertex1
+    ///     - removed vertex1
+    ///     - added vertex4, vertex5, vertex6
+    ///     - removed vertex4
+    ///     - added Edge(5,6)
+    ///     - removed Edge(5,6)
+    fileprivate func updateGraphAandB() {
+        
+        let vertex1 = Vertex(data: 1)
+        let vertex2 = Vertex(data: 2)
+        let vertex3 = Vertex(data: 3)
+        let vertex4 = Vertex(data: 4)
+        let vertex5 = Vertex(data: 5)
+        let vertex6 = Vertex(data: 6)
+        
+        a.addVertex(vertex: vertex1)
+        a.addVertex(vertex: vertex2)
+        a.addVertex(vertex: vertex3)
+        a.removeVertex(vertex: vertex1)
+
+        b.addVertex(vertex: vertex1)
+        b.removeVertex(vertex: vertex1)
+        b.addVertex(vertex: vertex4)
+        b.addVertex(vertex: vertex5)
+        b.addVertex(vertex: vertex6)
+        b.removeVertex(vertex: vertex4)
+        
+        a.addEdge(source: vertex2, destination: vertex3, type: .directed)
+        b.addEdge(source: vertex5, destination: vertex6, type: .directed)
+        b.removeEdge(vertex1: vertex5, vertex2: vertex6, edgeType: .directed)
+        
     }
 
 }

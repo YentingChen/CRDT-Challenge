@@ -38,16 +38,6 @@ struct LWWGSet<T: Hashable>: Hashable {
         timestamps[item] = timestamp
     }
     
-    /// Returns whether this subset is a subset of the other set.
-    ///
-    /// - Parameter anotherSet: Another set to compare this set to.
-    /// - Returns: Whether this set is a subset of the other set.
-    func compare(anotherSet: LWWGSet<T>) -> Bool {
-        
-        return timestamps.allSatisfy { anotherSet.lookup($0.key) != nil }
-        
-    }
-    
     /// Merges another set into this set, selecting the later timestamp if there are multiple for the same element.
     ///
     /// - Parameter anotherSet: The set to merge into this set.

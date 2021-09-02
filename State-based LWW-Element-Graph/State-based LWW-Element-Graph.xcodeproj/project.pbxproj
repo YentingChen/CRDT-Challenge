@@ -14,7 +14,6 @@
 		9DB7BFA326DF094600CC72D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DB7BFA226DF094600CC72D5 /* Assets.xcassets */; };
 		9DB7BFA626DF094600CC72D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DB7BFA426DF094600CC72D5 /* LaunchScreen.storyboard */; };
 		9DB7BFB126DF094700CC72D5 /* State_based_LWW_Element_GraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFB026DF094700CC72D5 /* State_based_LWW_Element_GraphTests.swift */; };
-		9DB7BFBC26DF094700CC72D5 /* State_based_LWW_Element_GraphUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFBB26DF094700CC72D5 /* State_based_LWW_Element_GraphUITests.swift */; };
 		9DB7BFCD26DF09AF00CC72D5 /* EdgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFCC26DF09AF00CC72D5 /* EdgeType.swift */; };
 		9DB7BFD226DF09C400CC72D5 /* LWWGSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFD126DF09C400CC72D5 /* LWWGSet.swift */; };
 		9DB7BFD726DF0A2900CC72D5 /* LWWGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB7BFD626DF0A2900CC72D5 /* LWWGraph.swift */; };
@@ -24,13 +23,6 @@
 
 /* Begin PBXContainerItemProxy section */
 		9DB7BFAD26DF094700CC72D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9DB7BF8E26DF094200CC72D5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9DB7BF9526DF094200CC72D5;
-			remoteInfo = "State-based LWW-Element-Graph";
-		};
-		9DB7BFB826DF094700CC72D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9DB7BF8E26DF094200CC72D5 /* Project object */;
 			proxyType = 1;
@@ -51,9 +43,6 @@
 		9DB7BFAC26DF094700CC72D5 /* State-based LWW-Element-GraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "State-based LWW-Element-GraphTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DB7BFB026DF094700CC72D5 /* State_based_LWW_Element_GraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State_based_LWW_Element_GraphTests.swift; sourceTree = "<group>"; };
 		9DB7BFB226DF094700CC72D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9DB7BFB726DF094700CC72D5 /* State-based LWW-Element-GraphUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "State-based LWW-Element-GraphUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9DB7BFBB26DF094700CC72D5 /* State_based_LWW_Element_GraphUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State_based_LWW_Element_GraphUITests.swift; sourceTree = "<group>"; };
-		9DB7BFBD26DF094700CC72D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DB7BFCC26DF09AF00CC72D5 /* EdgeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeType.swift; sourceTree = "<group>"; };
 		9DB7BFD126DF09C400CC72D5 /* LWWGSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LWWGSet.swift; sourceTree = "<group>"; };
 		9DB7BFD626DF0A2900CC72D5 /* LWWGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LWWGraph.swift; sourceTree = "<group>"; };
@@ -76,13 +65,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9DB7BFB426DF094700CC72D5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,7 +73,6 @@
 			children = (
 				9DB7BF9826DF094200CC72D5 /* State-based LWW-Element-Graph */,
 				9DB7BFAF26DF094700CC72D5 /* State-based LWW-Element-GraphTests */,
-				9DB7BFBA26DF094700CC72D5 /* State-based LWW-Element-GraphUITests */,
 				9DB7BF9726DF094200CC72D5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,7 +82,6 @@
 			children = (
 				9DB7BF9626DF094200CC72D5 /* State-based LWW-Element-Graph.app */,
 				9DB7BFAC26DF094700CC72D5 /* State-based LWW-Element-GraphTests.xctest */,
-				9DB7BFB726DF094700CC72D5 /* State-based LWW-Element-GraphUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,15 +112,6 @@
 				9DB7BFB226DF094700CC72D5 /* Info.plist */,
 			);
 			path = "State-based LWW-Element-GraphTests";
-			sourceTree = "<group>";
-		};
-		9DB7BFBA26DF094700CC72D5 /* State-based LWW-Element-GraphUITests */ = {
-			isa = PBXGroup;
-			children = (
-				9DB7BFBB26DF094700CC72D5 /* State_based_LWW_Element_GraphUITests.swift */,
-				9DB7BFBD26DF094700CC72D5 /* Info.plist */,
-			);
-			path = "State-based LWW-Element-GraphUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,24 +152,6 @@
 			productReference = 9DB7BFAC26DF094700CC72D5 /* State-based LWW-Element-GraphTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9DB7BFB626DF094700CC72D5 /* State-based LWW-Element-GraphUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9DB7BFC626DF094700CC72D5 /* Build configuration list for PBXNativeTarget "State-based LWW-Element-GraphUITests" */;
-			buildPhases = (
-				9DB7BFB326DF094700CC72D5 /* Sources */,
-				9DB7BFB426DF094700CC72D5 /* Frameworks */,
-				9DB7BFB526DF094700CC72D5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9DB7BFB926DF094700CC72D5 /* PBXTargetDependency */,
-			);
-			name = "State-based LWW-Element-GraphUITests";
-			productName = "State-based LWW-Element-GraphUITests";
-			productReference = 9DB7BFB726DF094700CC72D5 /* State-based LWW-Element-GraphUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -212,10 +165,6 @@
 						CreatedOnToolsVersion = 12.4;
 					};
 					9DB7BFAB26DF094700CC72D5 = {
-						CreatedOnToolsVersion = 12.4;
-						TestTargetID = 9DB7BF9526DF094200CC72D5;
-					};
-					9DB7BFB626DF094700CC72D5 = {
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = 9DB7BF9526DF094200CC72D5;
 					};
@@ -236,7 +185,6 @@
 			targets = (
 				9DB7BF9526DF094200CC72D5 /* State-based LWW-Element-Graph */,
 				9DB7BFAB26DF094700CC72D5 /* State-based LWW-Element-GraphTests */,
-				9DB7BFB626DF094700CC72D5 /* State-based LWW-Element-GraphUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -253,13 +201,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9DB7BFAA26DF094700CC72D5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9DB7BFB526DF094700CC72D5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -292,14 +233,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9DB7BFB326DF094700CC72D5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9DB7BFBC26DF094700CC72D5 /* State_based_LWW_Element_GraphUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -307,11 +240,6 @@
 			isa = PBXTargetDependency;
 			target = 9DB7BF9526DF094200CC72D5 /* State-based LWW-Element-Graph */;
 			targetProxy = 9DB7BFAD26DF094700CC72D5 /* PBXContainerItemProxy */;
-		};
-		9DB7BFB926DF094700CC72D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9DB7BF9526DF094200CC72D5 /* State-based LWW-Element-Graph */;
-			targetProxy = 9DB7BFB826DF094700CC72D5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -533,46 +461,6 @@
 			};
 			name = Release;
 		};
-		9DB7BFC726DF094700CC72D5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UNAH767L53;
-				INFOPLIST_FILE = "State-based LWW-Element-GraphUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "yenting.State-based-LWW-Element-GraphUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "State-based LWW-Element-Graph";
-			};
-			name = Debug;
-		};
-		9DB7BFC826DF094700CC72D5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UNAH767L53;
-				INFOPLIST_FILE = "State-based LWW-Element-GraphUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "yenting.State-based-LWW-Element-GraphUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "State-based LWW-Element-Graph";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -599,15 +487,6 @@
 			buildConfigurations = (
 				9DB7BFC426DF094700CC72D5 /* Debug */,
 				9DB7BFC526DF094700CC72D5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9DB7BFC626DF094700CC72D5 /* Build configuration list for PBXNativeTarget "State-based LWW-Element-GraphUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9DB7BFC726DF094700CC72D5 /* Debug */,
-				9DB7BFC826DF094700CC72D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
