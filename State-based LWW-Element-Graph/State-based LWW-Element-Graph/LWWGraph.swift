@@ -151,9 +151,9 @@ struct LWWGraph<T: Hashable> {
     /// Returns the vertices `item` existing in the graph
     ///
     /// - Returns: The vertices `item` existing in the graph
-    func lookupCurrentVertice() -> [Vertex<T>]  {
+    func lookupCurrentVertices() -> [Vertex<T>]  {
         
-        var vertice = [Vertex<T> : Date]()
+        var vertices = [Vertex<T> : Date]()
         
         for i in va.timestamps {
             
@@ -161,24 +161,24 @@ struct LWWGraph<T: Hashable> {
                 
                 if previousRemoveTime < i.value {
                     
-                    vertice[i.key] = i.value
+                    vertices[i.key] = i.value
                     
                 }
                 
             } else {
                 
-                vertice[i.key] = i.value
+                vertices[i.key] = i.value
                 
             }
         }
         
-        let sortedVertice = vertice.sorted {
+        let sortedVertices = vertices.sorted {
             
             return $0.value < $1.value
             
         }.map({ $0.key })
         
-        return sortedVertice
+        return sortedVertices
     }
     
     /// Returns the edges `item` existing in the graph

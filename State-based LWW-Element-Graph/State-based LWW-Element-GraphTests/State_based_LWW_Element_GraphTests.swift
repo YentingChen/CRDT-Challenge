@@ -34,7 +34,7 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
     ///     - Add vetex1, vertex2, and vertex3
     ///
     ///Check:
-    ///     - Current vertice are vertex1, vertex2, and vertex3
+    ///     - Current vertices are vertex1, vertex2, and vertex3
     ///     - The count of vertexAddingSet is 3
     func testAddingVertex() {
         
@@ -46,8 +46,8 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
         a.addVertex(vertex: vertex2)
         a.addVertex(vertex: vertex3)
         
-        let currentVertice = a.lookupCurrentVertice()
-        XCTAssertEqual(currentVertice, [vertex1, vertex2, vertex3])
+        let currentVertices = a.lookupCurrentVertices()
+        XCTAssertEqual(currentVertices, [vertex1, vertex2, vertex3])
         
         let vertexAddedCout = a.va.timestamps.count
         XCTAssertEqual(vertexAddedCout, 3)
@@ -105,11 +105,11 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
         a.addVertex(vertex: vertex3)
         a.removeVertex(vertex: vertex2)
 
-        let currentVertice = a.lookupCurrentVertice()
-        XCTAssertEqual(currentVertice, [vertex1, vertex3])
+        let currentVertices = a.lookupCurrentVertices()
+        XCTAssertEqual(currentVertices, [vertex1, vertex3])
         
-        let vertexRemovingCout = a.vr.timestamps.count
-        XCTAssertEqual(vertexRemovingCout, 1)
+        let vertexRemovingCount = a.vr.timestamps.count
+        XCTAssertEqual(vertexRemovingCount, 1)
     }
     
     ///Testing of removing edges
@@ -210,11 +210,11 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
     ///     - vertex1, vertex2, vertex3 and vetex4 were added
     ///     - edge(1,2) and edge(1,3) were added
     ///Action:
-    ///     - lookup vertex1's connected vertice
+    ///     - lookup vertex1's connected vertices
     ///
     ///Check:
-    ///     - vertex1's connectd vertice are vertex2 and vertex3
-    func testConnectedVertice() {
+    ///     - vertex1's connectd vertices are vertex2 and vertex3
+    func testConnectedVertices() {
         
         let vertex1 = Vertex(data: 1)
         let vertex2 = Vertex(data: 2)
@@ -230,8 +230,8 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
         a.addEdge(edge: edgeFrom1to2)
         a.addEdge(edge: edgeFrom1to3)
         
-        let connectedVertice = Set(a.lookupConnectedVerties(vertex: vertex1))
-        XCTAssertEqual(connectedVertice, Set([vertex2, vertex3]))
+        let connectedVertices = Set(a.lookupConnectedVerties(vertex: vertex1))
+        XCTAssertEqual(connectedVertices, Set([vertex2, vertex3]))
     }
     
     //Testing of connected edges

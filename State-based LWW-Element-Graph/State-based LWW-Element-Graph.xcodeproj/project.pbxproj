@@ -98,9 +98,9 @@
 				9DB7BFA726DF094600CC72D5 /* Info.plist */,
 				9DB7BFCC26DF09AF00CC72D5 /* EdgeType.swift */,
 				9DB7BFDB26DF0A7D00CC72D5 /* Edge.swift */,
+				9DB7BFE626DF1C8000CC72D5 /* Vertex.swift */,
 				9DB7BFD126DF09C400CC72D5 /* LWWGSet.swift */,
 				9DB7BFD626DF0A2900CC72D5 /* LWWGraph.swift */,
-				9DB7BFE626DF1C8000CC72D5 /* Vertex.swift */,
 			);
 			path = "State-based LWW-Element-Graph";
 			sourceTree = "<group>";
