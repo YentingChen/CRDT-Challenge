@@ -302,6 +302,8 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
     }
 
     ///Testing of Commutativity
+    ///Merging order has no effect on the outcome.
+    ///(A merged-with B) = (B merged-with A)
     ///It doesn’t matter whether you merge a with b, or b with a.
     ///
     ///Pre:
@@ -328,8 +330,9 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
 
     }
 
-    ///Testing of Commutativity
-    ///It doesn't matter if  a merge with b, and the result with c; or  begin with b and c, and merge the result with a.
+    ///Testing of Associativity
+    ///Rearranging the group of operations has no effect on the outcome.
+    ///(A merged-with B) merged-with C = A merged-with (B merged-with C)
     ///
     ///Pre:
     ///     - Updated Graph a and Graph b
