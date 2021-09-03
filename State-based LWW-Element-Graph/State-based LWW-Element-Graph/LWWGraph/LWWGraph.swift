@@ -7,6 +7,7 @@
 
 import Foundation
 
+///A LWWGraph contains `Add-Sets` and `Rmoved-Sets` and methods including `lookup`, `add`, `remove`, and `merge`.
 struct LWWGraph<T: Hashable> {
     
     /// - Instances:
@@ -70,9 +71,9 @@ struct LWWGraph<T: Hashable> {
         
         var edges = [Edge<T>]()
         
-        for i in ea.timestamps {
+        for i in ea.dataWithTime {
             
-            if er.timestamps[i.key] == nil {
+            if er.dataWithTime[i.key] == nil {
                 
                 if i.key.source == vertex {
                     
@@ -101,9 +102,9 @@ struct LWWGraph<T: Hashable> {
         
         var verties = [Vertex<T>]()
         
-        for i in ea.timestamps {
+        for i in ea.dataWithTime {
             
-            if er.timestamps[i.key] == nil {
+            if er.dataWithTime[i.key] == nil {
                 
                 if i.key.source == vertex {
                     
@@ -131,9 +132,9 @@ struct LWWGraph<T: Hashable> {
     /// - Returns: The edge `item` was added or nil.
     func lookupEdge(vertex1: Vertex<T>, vertex2: Vertex<T>) -> Edge<T>? {
         
-        for i in ea.timestamps {
+        for i in ea.dataWithTime {
             
-            if er.timestamps[i.key] == nil {
+            if er.dataWithTime[i.key] == nil {
                 
                 if (i.key.source == vertex1 && i.key.destination == vertex2) || (i.key.source == vertex2 && i.key.destination == vertex1) {
 
@@ -155,9 +156,9 @@ struct LWWGraph<T: Hashable> {
         
         var vertices = [Vertex<T> : Date]()
         
-        for i in va.timestamps {
+        for i in va.dataWithTime {
             
-            if let previousRemoveTime = vr.timestamps[i.key] {
+            if let previousRemoveTime = vr.dataWithTime[i.key] {
                 
                 if previousRemoveTime < i.value {
                     
@@ -188,9 +189,9 @@ struct LWWGraph<T: Hashable> {
         
         var edges = [Edge<T> : Date]()
         
-        for i in ea.timestamps {
+        for i in ea.dataWithTime {
             
-            if let previousRemoveTime = er.timestamps[i.key] {
+            if let previousRemoveTime = er.dataWithTime[i.key] {
                 
                 if previousRemoveTime < i.value {
                     
@@ -254,7 +255,7 @@ struct LWWGraph<T: Hashable> {
         /// - Precondition:
         ///     - The Source and Destination of the Edge exists
         ///     - All edges related to vertex not exists
-        /// - Downtream:
+        /// - Actions:
         ///     - EA adds the Edge
         ///     - If type is undirected, EA adds reversed Edge
         if lookup(vertex: source) && lookup(vertex: destination) {
@@ -283,7 +284,7 @@ struct LWWGraph<T: Hashable> {
         /// - Precondition:
         ///     - The Source and Destination of the Edge exists
         ///     - All edges related to vertex not exists
-        /// - Downtream:
+        /// - Actions:
         ///     - EA adds the Edge
         if lookup(vertex: edge.source) && lookup(vertex: edge.destination) {
             
@@ -305,9 +306,9 @@ struct LWWGraph<T: Hashable> {
         ///     - All edges related to vertex not exists
         guard lookup(vertex: vertex) else { return }
         
-        for i in ea.timestamps {
+        for i in ea.dataWithTime {
             
-            if er.timestamps[i.key] == nil {
+            if er.dataWithTime[i.key] == nil {
                 
                 if i.key.source == vertex || i.key.destination == vertex {
                     
@@ -318,7 +319,7 @@ struct LWWGraph<T: Hashable> {
 
         }
         
-        /// - Downtream:
+        /// - Actions:
         ///     - Pre:  vertex is added
         ///     - VR add the vertex
         if let vaDate = va.lookup(vertex), vaDate < Date() {
@@ -359,7 +360,7 @@ struct LWWGraph<T: Hashable> {
         /// - Precondition:
         ///     - The Edge exists
         ///
-        /// - Downtream:
+        /// - Actions:
         ///     - Pre:  the edge is added
         ///     - ER adds the vertex
         if lookup(edge: edge) {

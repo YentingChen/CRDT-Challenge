@@ -7,10 +7,11 @@
 
 import Foundation
 
+///A  LWWGSet is a Grow-only set, which stores the time each element was added
 struct LWWGSet<T: Hashable>: Hashable {
     
     /// A dictionary that stores the time an element was added.
-    var timestamps = [T : Date]()
+    var dataWithTime = [T : Date]()
     
     /// Returns the time `item` was added to this set, if it was added.
     ///
@@ -18,7 +19,7 @@ struct LWWGSet<T: Hashable>: Hashable {
     /// - Returns: The time `item` was added or nil.
     func lookup(_ item: T) -> Date? {
 
-        return timestamps[item]
+        return dataWithTime[item]
         
     }
     
@@ -35,7 +36,7 @@ struct LWWGSet<T: Hashable>: Hashable {
             
         }
         
-        timestamps[item] = timestamp
+        dataWithTime[item] = timestamp
     }
     
     /// Merges another set into this set, selecting the later timestamp if there are multiple for the same element.
@@ -43,20 +44,20 @@ struct LWWGSet<T: Hashable>: Hashable {
     /// - Parameter anotherSet: The set to merge into this set.
     mutating func merge(anotherSet: LWWGSet<T>) -> LWWGSet<T> {
         
-        for i in anotherSet.timestamps {
+        for i in anotherSet.dataWithTime {
             
-            if let value = timestamps[i.key] {
+            if let value = dataWithTime[i.key] {
                 
-                timestamps[i.key] = max(value, i.value)
+                dataWithTime[i.key] = max(value, i.value)
                 
             } else {
         
-                timestamps[i.key] = i.value
+                dataWithTime[i.key] = i.value
             }
             
         }
         
-        return LWWGSet(timestamps: timestamps)
+        return LWWGSet(dataWithTime: dataWithTime)
         
     }
     

@@ -21,10 +21,10 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
     
     func testInitialCreation() {
         
-        XCTAssertEqual(a.va.timestamps, [:])
-        XCTAssertEqual(a.vr.timestamps, [:])
-        XCTAssertEqual(a.ea.timestamps, [:])
-        XCTAssertEqual(a.er.timestamps, [:])
+        XCTAssertEqual(a.va.dataWithTime, [:])
+        XCTAssertEqual(a.vr.dataWithTime, [:])
+        XCTAssertEqual(a.ea.dataWithTime, [:])
+        XCTAssertEqual(a.er.dataWithTime, [:])
 
     }
     
@@ -49,7 +49,7 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
         let currentVertices = a.lookupCurrentVertices()
         XCTAssertEqual(currentVertices, [vertex1, vertex2, vertex3])
         
-        let vertexAddedCout = a.va.timestamps.count
+        let vertexAddedCout = a.va.dataWithTime.count
         XCTAssertEqual(vertexAddedCout, 3)
         
     }
@@ -79,7 +79,7 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
 
         XCTAssertEqual(currentEdges, [theEdge])
         
-        let edgeAddedCout = a.ea.timestamps.count
+        let edgeAddedCout = a.ea.dataWithTime.count
         XCTAssertEqual(edgeAddedCout, 1)
     }
     
@@ -108,7 +108,7 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
         let currentVertices = a.lookupCurrentVertices()
         XCTAssertEqual(currentVertices, [vertex1, vertex3])
         
-        let vertexRemovingCount = a.vr.timestamps.count
+        let vertexRemovingCount = a.vr.dataWithTime.count
         XCTAssertEqual(vertexRemovingCount, 1)
     }
     
@@ -144,10 +144,10 @@ class State_based_LWW_Element_GraphTests: XCTestCase {
         let currentEdges = a.lookupCurrentEdges()
         XCTAssertEqual(currentEdges, [edgeFrom1to3, edgeFrom3to1])
         
-        let edgeAddingCout = a.ea.timestamps.count
+        let edgeAddingCout = a.ea.dataWithTime.count
         XCTAssertEqual(edgeAddingCout, 3)
         
-        let edgeRemovingCout = a.er.timestamps.count
+        let edgeRemovingCout = a.er.dataWithTime.count
         XCTAssertEqual(edgeRemovingCout, 1)
     }
     
